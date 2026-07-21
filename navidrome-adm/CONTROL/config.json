@@ -1,0 +1,47 @@
+{
+  "general":{
+    "package":"navidrome-docker",
+    "name":"Navidrome",
+    "version":"0.63.2",
+    "depends":[
+      "docker-ce(>=20.10.17.r1)"
+    ],
+    "developer":"Navidrome",
+    "maintainer":"Orbernator",
+    "email":"contactus@teamorbi.net",
+    "website":"https://navidrome.org",
+    "architecture":"x86-64",
+    "firmware":"3.5.0"
+  },
+  "adm-desktop":{
+    "app":{
+      "port":4533,
+      "protocol":"http",
+      "type":"custom",
+      "url":"/" 
+    },
+    "privilege":{
+      "accessible":"users", 
+      "customizable":true 
+    }
+  },
+  "register":{
+    "share-folder":[
+      {
+        "name":"Docker",
+        "description":"Data and files directory for Docker Apps"
+      },
+      {
+      	"name":"Media",
+      	"description":"Media for apps and users"
+      }	
+    ],
+    "boot-priority":{
+      "start-order":70,
+      "stop-order":30
+    },
+    "port":[
+      "T4533"
+    ]
+  }
+}

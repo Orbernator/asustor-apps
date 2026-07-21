@@ -1,0 +1,49 @@
+Tunarr turns your local media into custom IPTV channels. Connect media servers (Plex, Jellyfin, Emby), build channels, and stream them like live TV. Docker image: chrisbenincasa/tunarr (1.3.8).
+
+
+[INFORMATION]
+Tunarr runs over HTTP on port 8000. Connect media sources from the web UI after first start. Your NAS share is mounted read-only at /share inside the container so local media paths are available. If /dev/dri is present, it is passed through for Intel/AMD hardware transcoding.
+
+
+[ADMIN PANEL]
+You can access Tunarr at: "http://your-nas-ip:8000".
+
+
+[SETUP]
+(+) First launch
+Open the admin panel and complete the welcome flow. Add a media source (Plex, Jellyfin, or Emby), then create channels and fill them with programming.
+
+(+) Media paths
+Files under /share on your ASUSTOR are visible inside the container at the same path. Prefer connecting a media server over the network when possible; use /share paths for local fillers or direct libraries as needed.
+
+(+) Timezone
+The container uses the NAS system time via /etc/localtime so guide data and schedules stay accurate.
+
+(-) If you need a clean start...
+Turn off the application and delete the "/share/Docker/Tunarr" folder, then start the application again.
+
+
+[PORTs]
+Tunarr exposes HTTP port 8000-tcp on your server.
+
+
+[CONFIG FILES]
+Tunarr data and settings are stored in "/share/Docker/Tunarr". Do not delete this folder if you want to keep channels and configuration across updates.
+
+
+[DOCS]
+Official Tunarr documentation: https://tunarr.com/
+
+
+[GITHUB]
+Find Tunarr upstream at: https://github.com/chrisbenincasa/tunarr
+
+
+[ISSUES]
+Report problems with this ADM package on the package repository issues page. For Tunarr itself, use the upstream project.
+
+-----------------------------------------------------------
+
+Why Tunarr?
+
+Tunarr lets you build your own live TV channels from media you already own, with scheduling, HDHR/IPTV endpoints, and hardware-accelerated transcoding when available.

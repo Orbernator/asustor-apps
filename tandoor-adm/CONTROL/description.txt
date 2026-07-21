@@ -1,0 +1,9 @@
+Tandoor is a Application for managing recipes, planning meals, building shopping lists and much much more!
+
+Tandoor is accessible at http://Your-NAS-IP:9928
+
+Images and other media stored at /Media/Tandoor
+
+Config is stored at /Docker/Tandoor
+
+Orbernator takes no resposibility for any loss of data or issues with the Tandoor app, this app is provided as is. Any issues with Tandoor outside of the ADM app are to be directed to the official Tandoor team.

@@ -1,0 +1,9 @@
+Navidrome is an open source web-based music collection server and streamer. It gives you freedom to listen to your music collection from any browser or mobile device. It's like your personal Spotify!
+
+Navidrome is accessable at http://Your-NAS-IP:4533
+
+Add your music at /Media/Navidrome
+
+Config is stored at /Docker/Navidrome
+
+Orbernator takes no resposibility for any loss of data or issues with the Navidrome app, this app is provided as is. Any issues with Navidrome outside of the ADM app are to be directed to the official Navidrome team.

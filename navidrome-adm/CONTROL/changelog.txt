@@ -1,0 +1,7 @@
+Version 1.3.8.r01
+- Initial Tunarr for ADM package based on chrisbenincasa/tunarr:1.3.8.
+- HTTP on port 8000, data in /share/Docker/Tunarr.
+- Mounts /share read-only for local media; passes /dev/dri when available for hardware transcoding.
+
+0.63.2
+- Initial Navidrome ADM release
