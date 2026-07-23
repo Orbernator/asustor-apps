@@ -1,12 +1,10 @@
 # Tandoor ADM
 
-__Tunarr version__: _`1.3.8`_
-
-![GitHub license](https://img.shields.io/badge/license-GPL--3.0-%23fe7d37)
+__Tandoor Version__: _`2.6.13`_
 
 
 Tandoor-adm is an application for ADM, the operating system of [ASUSTOR](https://www.asustor.com/) (ASUS).
-This application uses the Tunarr Docker image available at [chrisbenincasa/tunarr](https://github.com/chrisbenincasa/tunarr).
+This application uses the Tunarr Docker image available at [vabene1111/tandoor](https://github.com/vabene1111/tandoor).
 
 ## Requirements
 
@@ -23,13 +21,9 @@ __:warning: This application is not an Android application !__
 
 This application will create a folder in `/share/Docker/Tandoor`. This folder will contain all Tunarr settings, channels, and database data.
 
-## Configuration
-
-All information related to the configuration of the application on an ASUSTOR environment is available in the application description. Either in `/CONTROL/description.txt`.
-
 ## How to update Tandoor for ADM ?
 
-When an update is available you can do it directly from APP CENTRAL in ADM. If you want to do it manually, uninstall Tunarr and install the new version — your data under `/share/Docker/Tunarr` will be kept.
+When an update is available you can do it directly from APP CENTRAL in ADM. If you want to do it manually, uninstall Tunarr and install the new version — your data under `/share/Docker/Tandoor` will be kept.
 
 ## An issue or a request ?
 
