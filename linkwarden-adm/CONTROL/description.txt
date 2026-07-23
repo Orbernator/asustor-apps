@@ -1,0 +1,12 @@
+Linkwarden is a self-hosted, open-source collaborative bookmark manager to collect, read, annotate, and fully preserve what matters, all in one place.
+
+The objective is to organize useful webpages and articles you find across the web in one place, and since useful webpages can go away (see the inevitability of Link Rot), Linkwarden also saves a copy of each webpage as a Screenshot and PDF, ensuring accessibility even if the original content is no longer available.
+
+In addition to preservation, Linkwarden provides a user-friendly reading and annotation experience that blends the simplicity of a “read-it-later” tool with the reliability of a web archive. Whether you’re highlighting key ideas, jotting down thoughts, or revisiting content long after it’s disappeared from the web, Linkwarden keeps your knowledge accessible and organized.
+Once installed please complete the setup, you will not be able to add metadata keys until AFTER the setup is completed from the Web UI.
+
+Linkwarden is accessible at http://Your-NAS-IP:5465
+
+Config files is stored at /Docker/Linkwarden
+
+Orbernator takes no resposibility for any loss of data or issues with the Linkwarden app, this app is provided as is. Any issues with Linkwarden outside of the ADM app are to be directed to the official Linkwarden team.

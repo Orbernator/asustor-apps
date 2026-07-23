@@ -1,0 +1,11 @@
+RomM (ROM Manager) lets you scan, enrich, organise, and play your game collection from a clean web UI, with metadata from IGDB, ScreenScraper, MobyGames, RetroAchievements, Hasheous, LaunchBox, and more. In-browser play via EmulatorJS and Ruffle, companion apps for Android, handhelds, and desktop, and a first-class multi-user experience with OIDC SSO.
+
+Once installed please complete the setup, you will not be able to add metadata keys until AFTER the setup is completed from the Web UI.
+
+Romm is accessible at http://Your-NAS-IP:7666
+
+Images and ROM files are stored at /Media/Romm
+
+Config files is stored at /Docker/Tandoor
+
+Orbernator takes no resposibility for any loss of data or issues with the Romm app, this app is provided as is. Any issues with Romm outside of the ADM app are to be directed to the official Romm team.
