@@ -11,7 +11,7 @@
     "email":"contactus@teamorbi.net",
     "website":"https://docs.tandoor.dev",
     "architecture":"x86-64",
-    "firmware":"3.5.0"
+    "firmware":"5.0.0"
   },
   "adm-desktop":{
     "app":{

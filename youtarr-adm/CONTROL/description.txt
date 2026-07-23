@@ -1,0 +1,13 @@
+Youtarr is a self-hosted YouTube downloader that automatically downloads videos from your favorite channels and playlists. 
+It provides metadata for multiple media servers, mirrors your subscribed YouTube playlists into Plex, Jellyfin, and Emby as native playlists, pulls watch status back from those servers so you can filter your library by what's been watched, and offers optional Plex integration for automatic library refreshes.
+
+On completion of install, you will need to go to /Docker/Youtarr/setup-token.txt and enter the contents during setup.
+If you want to change where the videos download to, turn off the app in App Central, then edit the line YOUTARR_OUTPUT_DIR='/share/Download/Youtarr' (at line 35) to whatever it should be. The file is located at /Docker/Youtarr/docker-compose.yml 
+For convienience I have added the /share/Media to the container, so you can change it if you want.
+
+Youtarr is accessible at http://Your-NAS-IP:3087
+
+Config files is stored at /Docker/Youtarr
+The Video output is at /Download/Youtarr
+
+Orbernator takes no resposibility for any loss of data or issues with the Youtarr app, this app is provided as is. Any issues with Youtarr outside of the ADM app are to be directed to the official Youtarr team.

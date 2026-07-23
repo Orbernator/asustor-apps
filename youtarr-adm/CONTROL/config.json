@@ -1,21 +1,21 @@
 {
   "general": {
-    "package": "linkwarden-docker",
-    "name": "Linkwarden",
-    "version": "2.15.1",
+    "package": "youtarr-docker",
+    "name": "Youtarr",
+    "version": "1.76.1",
     "depends": [
       "docker-ce(>=20.10.17.r1)"
     ],
-    "developer": "Linkwarden",
+    "developer": "DialmasterOrg",
     "maintainer": "Orbernator",
     "email": "contactus@teamorbi.net",
-    "website": "https://docs.linkwarden.org",
+    "website": "https://youtarr.com",
     "architecture": "x86-64",
     "firmware": "5.0.0"
   },
   "adm-desktop": {
     "app": {
-      "port": 5465,
+      "port": 3087,
       "protocol": "http",
       "type": "custom",
       "url": "/"
@@ -30,6 +30,14 @@
       {
         "name": "Docker",
         "description": "Data and files directory for Docker Apps"
+      },
+      {
+        "name": "Download",
+        "description": "Folder for Downloads to go into"
+      },
+      {
+        "name": "Media",
+        "description": "Media for Asustor users"
       }
     ],
     "boot-priority": {
@@ -37,7 +45,7 @@
       "stop-order": 30
     },
     "port": [
-      "T5465"
+      "T3087"
     ]
   }
 }
