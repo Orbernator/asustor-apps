@@ -1,0 +1,9 @@
+A lightweight, highly customizable dashboard that displays your feeds in a beautiful, streamlined interface
+
+Once installed please edit the glance.yml file in /share/Docker/Glance/config according to https://github.com/glanceapp/glance/blob/main/docs/configuration.md#configuring-glance
+
+Romm is accessible at http://Your-NAS-IP:4523
+
+All files are located at /Docker/Glance
+
+Orbernator takes no resposibility for any loss of data or issues with the Glance app, this app is provided as is. Any issues with Glance outside of the ADM app are to be directed to the official Glance team.

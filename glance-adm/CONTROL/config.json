@@ -1,0 +1,43 @@
+{
+  "general":{
+    "package":"glance-docker",
+    "name":"Glance",
+    "version":"0.8.5",
+    "depends":[
+      "docker-ce(>=20.10.17.r1)"
+    ],
+    "developer":"Glanceapp",
+    "maintainer":"Orbernator",
+    "email":"contactus@teamorbi.net",
+    "website":"https://github.com/glanceapp/glance",
+    "architecture":"x86-64",
+    "firmware":"5.0.0"
+  },
+  "adm-desktop":{
+    "app":{
+      "port":4523,
+      "protocol":"http",
+      "type":"custom",
+      "url":"/"
+    },
+    "privilege":{
+      "accessible":"users",
+      "customizable":true
+    }
+  },
+  "register":{
+    "share-folder":[
+      {
+        "name":"Docker",
+        "description":"Data and files directory for Docker Apps"
+      }
+    ],
+    "boot-priority":{
+      "start-order":70,
+      "stop-order":30
+    },
+    "port":[
+      "T4523"
+    ]
+  }
+}

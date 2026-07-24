@@ -21,8 +21,11 @@ I would like to thank [EndMove](https://github.com/EndMove) for the original cod
 **RomM** - RomM is a self-hosted app that allows you to scan, enrich, browse and play your game collection with a clean and responsive interface.
 [View](https://github.com/Orbernator/asustor-apps/tree/main/romm-adm)
 
-**Youtarr* - Youtarr is a self-hosted YouTube downloader that automatically downloads videos from your favorite channels and playlists.
+**Youtarr** - Youtarr is a self-hosted YouTube downloader that automatically downloads videos from your favorite channels and playlists.
 [View](https://github.com/Orbernator/asustor-apps/tree/main/youtarr-adm)
+
+**Glance** - Glance is a lightweight, highly customizable dashboard that displays your feeds in a beautiful, streamlined interface
+[View](https://github.com/Orbernator/asustor-apps/tree/main/glance-adm)
 
 ## More to Come
 
