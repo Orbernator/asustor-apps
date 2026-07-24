@@ -2,7 +2,7 @@
   "general":{
     "package":"glance-docker",
     "name":"Glance",
-    "version":"0.8.5-o1",
+    "version":"0.8.5-o2",
     "depends":[
       "docker-ce(>=20.10.17.r1)"
     ],

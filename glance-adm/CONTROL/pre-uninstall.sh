@@ -6,6 +6,7 @@ echo "glance-adm: --== pre-uninstall ==--"
 # Environment variables
 GLANCE_VERSION=$(cat $APKG_PKG_DIR/glance_version)
 GLANCE_CONTAINER=$(docker container ls -a | grep glance | awk '{print $1}')
+GLANCE_NETWORKS=$(docker container ls -a | grep glance | awk '{print $1}')
 GLANCE_IMAGE=$(docker images | grep glanceapp/glance | grep $GLANCE_VERSION | awk '{print $3}')
 
 # Force shutdown of the container and delete it
@@ -22,6 +23,11 @@ echo "glance-adm: Removing docker image"
 echo "glance-adm: Image ID: $GLANCE_IMAGE"
 if [ -n "$GLANCE_IMAGE" ]; then
   docker rmi -f "$GLANCE_IMAGE"
+fi
+
+echo "glance-adm: Removing networks"
+if [ -n "$GLANCE_NETWORKS" ]; then
+  docker network rm "$GLANCE_NETWORKS"
 fi
 
 exit 0
