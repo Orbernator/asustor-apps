@@ -1,2 +1,5 @@
+0.8.5-o1
+- Fixed a issue with Glance uninstalling
+
 0.8.5
 - Initial Glance ADM release
