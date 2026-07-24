@@ -1,2 +1,5 @@
+2.15.1-o1
+- Fixed a issue with Uninstalling and with the Database
+
 2.15.1
 - Initial Linkwarden ADM release

@@ -14,10 +14,24 @@ if [ -z "$APKG_PKG_DIR" ]; then
   exit 1
 fi
 
-LINKWARDEN_VERSION="${LINKWARDEN_VERSION:-main}"
+if [ ! -f "$APKG_PKG_DIR/linkwarden_version" ]; then
+  echo "ERROR: linkwarden_version file not found at $APKG_PKG_DIR/linkwarden_version"
+  echo "Falling back to 'latest' tag"
+  LINKWARDEN_VERSION="latest"
+else
+  LINKWARDEN_VERSION=$(cat "$APKG_PKG_DIR/linkwarden_version")
+  LINKWARDEN_VERSION=$(echo "$LINKWARDEN_VERSION" | tr -d '[:space:]')
+fi
+
+if [ -z "$LINKWARDEN_VERSION" ]; then
+  echo "ERROR: linkwarden_version file is empty"
+  LINKWARDEN_VERSION="v2.15.1"
+fi
 
 LINKWARDEN_DATA_PATH='/share/Docker/Linkwarden'
 CONFIG_PATH='/share/Docker/Linkwarden/config'
+LINKWARDEN_DB='/share/Docker/Linkwarden/db'
+LINKWARDEN_ENV_PATH='/share/Docker/Linkwarden/.env'
 COMPOSE_FILE="$LINKWARDEN_DATA_PATH/docker-compose.yml"
 
 echo "Using version: $LINKWARDEN_VERSION"
@@ -66,67 +80,36 @@ if [ -z "$POSTGRES_PASSWORD" ]; then
   POSTGRES_PASSWORD="please_change_me"
 fi
 
+
 # --- Generate docker-compose.yml ---
 echo "Generating docker-compose.yml..."
 
 cat > "$COMPOSE_FILE" <<COMPOSE_EOF
 services:
-  db:
-    image: postgres:15-alpine
+  postgres:
+    image: postgres:16-alpine
     container_name: linkwarden-db
+    env_file: ${LINKWARDEN_ENV_PATH}
     restart: unless-stopped
     environment:
       - POSTGRES_USER=linkwarden
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=linkwarden
     volumes:
-      - db-data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U linkwarden"]
-      start_period: 30s
-      start_interval: 10s
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
+      - ${LINKWARDEN_DB}:/var/lib/postgresql/data
   linkwarden:
-    image: ghcr.io/linkwarden/linkwarden:v2.15.1
     container_name: linkwarden
-    restart: unless-stopped
+    env_file: ${LINKWARDEN_ENV_PATH}
     environment:
-      # Database connection
-      - DATABASE_URL=postgresql://linkwarden:${POSTGRES_PASSWORD}@db:5432/linkwarden
-      
-      # Authentication
-      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
-      - NEXTAUTH_URL=http://localhost:5465
-      
-      # Self-hosted mode
-      - SELF_HOSTED=true
-      
-      # Collector service (for screenshots, OCR, automation)
-      - COLLECTOR_IMAGE=ghcr.io/linkwarden/collector:main
-      
-      # Optional environment variables (uncomment and configure as needed)
-      # - DISABLE_SIGNUPS=false
-      # - ALLOW_EMAIL_LOGIN=true
-      # - ALLOW_OAUTH_LOGIN=true
-      # - ENABLE_RATE_LIMITING=true
-      # - SESSION_MAX_AGE=2592000
-      # - REDIS_URL=redis://redis:6379
-    volumes:
-      - linkwarden-data:/data/data
-      - ${CONFIG_PATH}:/data/config
+      - DATABASE_URL=postgresql://linkwarden:${POSTGRES_PASSWORD}@postgres:5432/linkwarden
+    restart: unless-stopped
+    image: ghcr.io/linkwarden/linkwarden:${LINKWARDEN_VERSION}
     ports:
-      - "5465:3000"
+      - 5465:3000
+    volumes:
+      - ${LINKWARDEN_DATA_PATH}:/data/data
     depends_on:
-      db:
-        condition: service_healthy
-        restart: true
-
-volumes:
-  db-data:
-  linkwarden-data:
+      - postgres
 COMPOSE_EOF
 
 echo "Generated docker-compose.yml:"
@@ -134,13 +117,12 @@ cat "$COMPOSE_FILE"
 
 # Save generated secrets and config reference
 echo ""
-echo "=== Generated secrets and config ===" > "$LINKWARDEN_DATA_PATH/secrets.txt"
-echo "# Save these securely - they won't be regenerated after initial install" >> "$LINKWARDEN_DATA_PATH/secrets.txt"
-echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> "$LINKWARDEN_DATA_PATH/secrets.txt"
-echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> "$LINKWARDEN_DATA_PATH/secrets.txt"
-echo "" >> "$LINKWARDEN_DATA_PATH/secrets.txt"
-echo "# Reference .env.sample: https://raw.githubusercontent.com/linkwarden/linkwarden/refs/heads/main/.env.sample" >> "$LINKWARDEN_DATA_PATH/secrets.txt"
-chmod 600 "$LINKWARDEN_DATA_PATH/secrets.txt"
+echo "=== Generated secrets and config ==="
+echo "# Save these securely - they won't be regenerated after initial install"
+echo "NEXTAUTH_URL=http://localhost:3000/api/v1/auth" >> "$LINKWARDEN_DATA_PATH/.env"
+echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> "$LINKWARDEN_DATA_PATH/.env"
+echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> "$LINKWARDEN_DATA_PATH/.env"
+echo "# Reference .env.sample: https://raw.githubusercontent.com/linkwarden/linkwarden/refs/heads/main/.env.sample" 
 
 # --- Pull images ---
 echo "Pulling images..."

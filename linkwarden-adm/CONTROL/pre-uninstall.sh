@@ -3,23 +3,34 @@
 echo "linkwarden-adm: --== pre-uninstall ==--"
 
 # Environment variables
-LINKWARDEN_CONTAINERS=$(docker container ls -a | grep -E '^linkwarden$|^linkwarden-db$' | awk '{print $1}')
+LINKWARDEN_VERSION=$(cat $APKG_PKG_DIR/linkwarden_version)
+LINKWARDEN_CONTAINER=$(docker container ls -a | grep -E 'linkwarden-db|linkwarden' | awk '{print $1}')
+LINKWARDEN_NETWORKS=$(docker container ls -a | grep linkwarden | awk '{print $1}')
+LINKWARDEN_IMAGE=$(docker images | grep linkwarden/linkwarden | grep $LINKWARDEN_VERSION | awk '{print $3}')
+LINKWARDEN_DB_IMAGE=$(docker images | grep postgres | grep 15-alpine | awk '{print $3}')
 
 # Force shutdown of the containers and delete them
 echo "linkwarden-adm: Stopping and removing containers"
-for cid in $LINKWARDEN_CONTAINERS; do
+for cid in $LINKWARDEN_CONTAINER; do
   echo "    - $cid"
   docker kill "$cid" 2>/dev/null
   docker rm -f "$cid" 2>/dev/null
 done
 
-# Remove docker images on uninstalling
-echo "linkwarden-adm: Removing docker images"
-docker rmi -f ghcr.io/linkwarden/linkwarden:$(cat $APKG_PKG_DIR/linkwarden_version 2>/dev/null) 2>/dev/null || true
-docker rmi -f postgres:15-alpine 2>/dev/null || true
+# Remove docker image on uninstalling & updating
+echo "linkwarden-adm: Removing docker image"
+echo "linkwarden-adm: Image ID: $LINKWARDEN_IMAGE"
+if [ -n "$LINKWARDEN_IMAGE" ]; then
+  docker rmi -f "$LINKWARDEN_IMAGE"
+fi
+echo "linkwarden-adm: Image ID: $LINKWARDEN_DB_IMAGE"
+if [ -n "$LINKWARDEN_DB_IMAGE" ]; then
+  docker rmi "$LINKWARDEN_DB_IMAGE"
+fi
 
-# Optional: Remove volumes (comment out if you want to preserve data)
-# docker volume rm linkwarden-docker_linkwarden-data 2>/dev/null || true
-# docker volume rm linkwarden-docker_db-data 2>/dev/null || true
+echo "linkwarden-adm: Removing networks"
+if [ -n "$LINKWARDEN_NETWORKS" ]; then
+  docker network rm "$LINKWARDEN_NETWORKS"
+fi
 
 exit 0
