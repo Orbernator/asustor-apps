@@ -21,6 +21,9 @@ I would like to thank [EndMove](https://github.com/EndMove) for the original cod
 **RomM** - RomM is a self-hosted app that allows you to scan, enrich, browse and play your game collection with a clean and responsive interface.
 [View](https://github.com/Orbernator/asustor-apps/tree/main/romm-adm)
 
+**Youtarr* - Youtarr is a self-hosted YouTube downloader that automatically downloads videos from your favorite channels and playlists.
+[View](https://github.com/Orbernator/asustor-apps/tree/main/youtarr-adm)
+
 ## More to Come
 
 If you have any suggestions for apps you would like, make a issue! I would love to hear your feedback!
