@@ -2,7 +2,7 @@
   "general":{
     "package":"romm-docker",
     "name":"Romm",
-    "version":"5.0.0",
+    "version":"5.0.0-o1",
     "depends":[
       "docker-ce(>=20.10.17.r1)"
     ],
