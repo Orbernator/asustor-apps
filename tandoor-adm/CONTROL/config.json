@@ -2,7 +2,7 @@
   "general":{
     "package":"tandoor-docker",
     "name":"Tandoor",
-    "version":"2.6.13",
+    "version":"2.6.13-o1",
     "depends":[
       "docker-ce(>=20.10.17.r1)"
     ],

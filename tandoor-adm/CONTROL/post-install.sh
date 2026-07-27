@@ -72,12 +72,11 @@ $COMPOSE_CMD -f "$COMPOSE_FILE" down --remove-orphans 2>/dev/null || true
 # --- Generate docker-compose.yml ---
 echo "Generating docker-compose.yml..."
 
-if [ -e /dev/dri ]; then
-  echo "GPU device detected at /dev/dri — enabling hardware transcoding"
-  cat > "$COMPOSE_FILE" <<'COMPOSE_EOF'
+cat > "$COMPOSE_FILE" <<'COMPOSE_EOF'
 services:
   db:
     image: postgres:15-alpine
+    container_name: tandoor-db
     restart: unless-stopped
     volumes:
       - DB_DATA_PLACEHOLDER:/var/lib/postgresql/data
@@ -93,48 +92,7 @@ services:
 
   tandoor:
     image: IMAGE_PLACEHOLDER
-    restart: unless-stopped
-    ports:
-      - "9928:80"
-    volumes:
-      - STATIC_PLACEHOLDER:/opt/recipes/staticfiles
-      - MEDIA_PLACEHOLDER:/opt/recipes/mediafiles
-    devices:
-      - /dev/dri:/dev/dri
-    environment:
-      - SECRET_KEY=please_change_me
-      - DB_ENGINE=django.db.backends.postgresql
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=djangodb
-      - POSTGRES_PASSWORD=please_change_me_postgres
-      - POSTGRES_DB=djangodb
-      - ALLOWED_HOSTS=$AS_NAS_INET4_IP1
-    depends_on:
-      db:
-        condition: service_healthy
-COMPOSE_EOF
-else
-  echo "No GPU device at /dev/dri — skipping hardware transcoding"
-  cat > "$COMPOSE_FILE" <<'COMPOSE_EOF'
-services:
-  db:
-    image: postgres:15-alpine
-    restart: unless-stopped
-    volumes:
-      - DB_DATA_PLACEHOLDER:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=djangodb
-      - POSTGRES_PASSWORD=please_change_me_postgres
-      - POSTGRES_DB=djangodb
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U djangodb"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  tandoor:
-    image: IMAGE_PLACEHOLDER
+    container_name: tandoor
     restart: unless-stopped
     ports:
       - "9928:80"
