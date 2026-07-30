@@ -1,3 +1,11 @@
+5.1.0
+Official Notes
+- Launches a game into a native emulator running in a separate container and streams the picture, sound, and input back to your browser. Unlike EmulatorJS, the emulation runs server-side on real emulator binaries (PCSX2, Dolphin, Xemu), so the heavy lifting happens on the host rather than in the client.
+- Optional per-field artwork priority to prioritize metadata sources differently for covers, screenshots, and manuals, which fall back to the shared scan.priority.artwork.
+- Brand new UI to edit the whole scan.* section of config.yml
+- Client-side filters to the manual cover-search dialog to quickly narrow SteamGridDB results instead of scrolling through dozens of community covers.
+Orbernator's Notes
+- Fixed a issue with overwriting, updated to 5.1.0
 5.0.0-o1
 - Fixes a issue when Uninstalling
 

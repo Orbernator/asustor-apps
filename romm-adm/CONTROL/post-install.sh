@@ -25,13 +25,14 @@ fi
 
 if [ -z "$ROMM_VERSION" ]; then
   echo "ERROR: romm_version file is empty"
-  ROMM_VERSION="5.0.0"
+  ROMM_VERSION="5.1.0"
 fi
 
 ROMM_DATA_PATH='/share/Docker/Romm'
 ROMM_LIBRARY_PATH='/share/Media/Romm/library'
 ROMM_ASSETS_PATH='/share/Media/Romm/assets'
 ROMM_CONFIG_PATH='/share/Docker/Romm/config'
+ROMM_ENV_PATH='/share/Docker/Romm/.env'
 DB_DATA_PATH='/share/Docker/Romm/db'
 COMPOSE_FILE="$ROMM_DATA_PATH/docker-compose.yml"
 
@@ -75,24 +76,43 @@ mkdir -p "$DB_DATA_PATH"
 echo "Removing existing containers (if any)..."
 $COMPOSE_CMD -f "$COMPOSE_FILE" down --remove-orphans 2>/dev/null || true
 
-# --- Generate auth secret key ---
-ROMM_AUTH_SECRET_KEY=$(openssl rand -hex 32 2>/dev/null)
+# --- Load or generate credentials ---
+SECRETS_FILE="$ROMM_DATA_PATH/secrets.txt"
+
+if [ -f "$SECRETS_FILE" ]; then
+  echo "Found existing secrets at $SECRETS_FILE — reusing stored credentials."
+  ROMM_AUTH_SECRET_KEY=$(grep '^ROMM_AUTH_SECRET_KEY=' "$SECRETS_FILE" | cut -d'=' -f2-)
+  MARIADB_ROOT_PASSWORD=$(grep '^MARIADB_ROOT_PASSWORD=' "$SECRETS_FILE" | cut -d'=' -f2-)
+  MARIADB_PASSWORD=$(grep '^MARIADB_PASSWORD=' "$SECRETS_FILE" | cut -d'=' -f2-)
+fi
+
+# Fall back to generating new credentials if any value is missing
 if [ -z "$ROMM_AUTH_SECRET_KEY" ]; then
-  echo "WARNING: openssl not available, using fallback key — CHANGE THIS MANUALLY"
-  ROMM_AUTH_SECRET_KEY="change_me_please_generate_with_openssl_rand_hex_32"
+  echo "No existing ROMM_AUTH_SECRET_KEY found — generating a new one."
+  ROMM_AUTH_SECRET_KEY=$(openssl rand -hex 32 2>/dev/null)
+  if [ -z "$ROMM_AUTH_SECRET_KEY" ]; then
+    echo "WARNING: openssl not available, using fallback key — CHANGE THIS MANUALLY"
+    ROMM_AUTH_SECRET_KEY="change_me_please_generate_with_openssl_rand_hex_32"
+  fi
 fi
 
-# --- Generate MariaDB password ---
-MARIADB_ROOT_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
 if [ -z "$MARIADB_ROOT_PASSWORD" ]; then
-  MARIADB_ROOT_PASSWORD="please_change_me_root"
+  echo "No existing MARIADB_ROOT_PASSWORD found — generating a new one."
+  MARIADB_ROOT_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
+  if [ -z "$MARIADB_ROOT_PASSWORD" ]; then
+    MARIADB_ROOT_PASSWORD="please_change_me_root"
+  fi
 fi
 
-MARIADB_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
 if [ -z "$MARIADB_PASSWORD" ]; then
-  MARIADB_PASSWORD="please_change_me"
+  echo "No existing MARIADB_PASSWORD found — generating a new one."
+  MARIADB_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
+  if [ -z "$MARIADB_PASSWORD" ]; then
+    MARIADB_PASSWORD="please_change_me"
+  fi
 fi
 
+echo "Credentials ready."
 # --- Generate docker-compose.yml ---
 echo "Generating docker-compose.yml..."
 
@@ -102,6 +122,8 @@ services:
     image: rommapp/romm:${ROMM_VERSION}
     container_name: romm
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - DB_HOST=romm-db
       - DB_NAME=romm
@@ -149,13 +171,30 @@ COMPOSE_EOF
 echo "Generated docker-compose.yml:"
 cat "$COMPOSE_FILE"
 
-# Save generated secrets for reference
-echo ""
-echo "=== Generated secrets (save these!) ===" > "$ROMM_DATA_PATH/secrets.txt"
-echo "ROMM_AUTH_SECRET_KEY=${ROMM_AUTH_SECRET_KEY}" >> "$ROMM_DATA_PATH/secrets.txt"
-echo "MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}" >> "$ROMM_DATA_PATH/secrets.txt"
-echo "MARIADB_PASSWORD=${MARIADB_PASSWORD}" >> "$ROMM_DATA_PATH/secrets.txt"
-chmod 600 "$ROMM_DATA_PATH/secrets.txt"
+# Save generated secrets (only if secrets file didn't already exist)
+if [ ! -f "$SECRETS_FILE" ]; then
+  echo ""
+  echo "=== Generated secrets (save these!) ===" > "$SECRETS_FILE"
+  echo "ROMM_AUTH_SECRET_KEY=${ROMM_AUTH_SECRET_KEY}" >> "$SECRETS_FILE"
+  echo "MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}" >> "$SECRETS_FILE"
+  echo "MARIADB_PASSWORD=${MARIADB_PASSWORD}" >> "$SECRETS_FILE"
+  chmod 600 "$SECRETS_FILE"
+  echo "Secrets saved to $SECRETS_FILE"
+else
+  echo "Secrets file already existed — keeping existing credentials intact."
+fi
+
+if [ ! -f "$ROMM_ENV_PATH" ]; then 
+  echo "Generating a Sample ENV file"
+  echo "SCREENSCRAPER_USER= # These are the recommended metadata providers" >> "$ROMM_ENV_PATH"
+  echo "SCREENSCRAPER_PASSWORD= # https://docs.romm.app/latest/getting-started/metadata-providers/#screenscraper" >> "$ROMM_ENV_PATH"
+  echo "RETROACHIEVEMENTS_API_KEY= # https://docs.romm.app/latest/getting-started/metadata-providers/#retroachievements" >> "$ROMM_ENV_PATH"
+  echo "STEAMGRIDDB_API_KEY= # https://docs.romm.app/latest/getting-started/metadata-providers/#steamgriddb" >> "$ROMM_ENV_PATH"
+  chmod 600 "$ROMM_ENV_PATH"
+  echo "Sample ENV created."
+else
+  echo ".env detected, not creating file"
+fi
 
 # --- Pull images ---
 echo "Pulling images..."

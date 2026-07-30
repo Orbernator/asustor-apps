@@ -1,12 +1,12 @@
 {
   "general":{
     "package":"romm-docker",
-    "name":"Romm",
-    "version":"5.0.0-o1",
+    "name":"RomM",
+    "version":"5.1.0",
     "depends":[
       "docker-ce(>=20.10.17.r1)"
     ],
-    "developer":"Romm",
+    "developer":"RomM",
     "maintainer":"Orbernator",
     "email":"contactus@teamorbi.net",
     "website":"https://docs.romm.app",
