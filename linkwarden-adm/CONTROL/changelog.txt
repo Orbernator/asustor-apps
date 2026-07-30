@@ -1,3 +1,9 @@
+2.16.0
+- Support for self-signed certificates and custom request headers: Android now accepts self-signed certificates, and you can add custom request headers to the app's requests. This makes the app usable with instances behind a reverse proxy or auth layer like Authelia or Cloudflare Access.
+- Re-preserve link formats: You can now re-generate a link's preserved formats (screenshot, PDF, readable view) from the mobile app, useful if the original preservation failed or the page has changed since.
+- Change link's banner: You can now set a custom banner image for a link when editing it.
+- Access more account options in Settings: Settings now has a "More Account Settings" option that opens your full account settings inside the app, using your existing session. 
+
 2.15.1-o1
 - Fixed a issue with Uninstalling and with the Database
 

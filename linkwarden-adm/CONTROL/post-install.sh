@@ -25,13 +25,14 @@ fi
 
 if [ -z "$LINKWARDEN_VERSION" ]; then
   echo "ERROR: linkwarden_version file is empty"
-  LINKWARDEN_VERSION="v2.15.1"
+  LINKWARDEN_VERSION="v2.16.0"
 fi
 
 LINKWARDEN_DATA_PATH='/share/Docker/Linkwarden'
 CONFIG_PATH='/share/Docker/Linkwarden/config'
 LINKWARDEN_DB='/share/Docker/Linkwarden/db'
 LINKWARDEN_ENV_PATH='/share/Docker/Linkwarden/.env'
+SECRETS_FILE='/share/Docker/Linkwarden/secrets.txt'
 COMPOSE_FILE="$LINKWARDEN_DATA_PATH/docker-compose.yml"
 
 echo "Using version: $LINKWARDEN_VERSION"
@@ -68,18 +69,28 @@ mkdir -p "$CONFIG_PATH"
 echo "Removing existing containers (if any)..."
 $COMPOSE_CMD -f "$COMPOSE_FILE" down --remove-orphans 2>/dev/null || true
 
+if [ -f "$SECRETS_FILE" ]; then
+  echo "Found existing secrets at $LINKWARDEN_ENV_PATH — reusing stored credentials."
+  NEXTAUTH_SECRET=$(grep 'NEXTAUTH_SECRET=' "$NEXTAUTH_SECRET" | cut -d'=' -f2-)
+  POSTGRES_PASSWORD=$(grep 'POSTGRES_PASSWORD=' "$LINKWARDEN_ENV_PATH" | cut -d'=' -f2-)
+fi
+
 # --- Generate credentials ---
-NEXTAUTH_SECRET=$(openssl rand -hex 32 2>/dev/null)
 if [ -z "$NEXTAUTH_SECRET" ]; then
-  echo "WARNING: openssl not available, using fallback key — CHANGE THIS MANUALLY"
-  NEXTAUTH_SECRET="change_me_please_generate_with_openssl_rand_hex_32"
+  echo "No existing MARIADB_ROOT_PASSWORD found — generating a new one."
+  NEXTAUTH_SECRET=$(openssl rand -hex 32 2>/dev/null)
+  if [ -z "$NEXTAUTH_SECRET" ]; then
+    NEXTAUTH_SECRET="please_change_me_root"
+  fi
 fi
 
-POSTGRES_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
 if [ -z "$POSTGRES_PASSWORD" ]; then
-  POSTGRES_PASSWORD="please_change_me"
+  echo "No existing MARIADB_PASSWORD found — generating a new one."
+  POSTGRES_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
+  if [ -z "$POSTGRES" ]; then
+    MARIADB_PASSWORD="please_change_me"
+  fi
 fi
-
 
 # --- Generate docker-compose.yml ---
 echo "Generating docker-compose.yml..."
@@ -89,12 +100,11 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: linkwarden-db
-    env_file: ${LINKWARDEN_ENV_PATH}
     restart: unless-stopped
     environment:
       - POSTGRES_USER=linkwarden
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=linkwarden
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       - ${LINKWARDEN_DB}:/var/lib/postgresql/data
   linkwarden:
@@ -116,13 +126,17 @@ echo "Generated docker-compose.yml:"
 cat "$COMPOSE_FILE"
 
 # Save generated secrets and config reference
-echo ""
-echo "=== Generated secrets and config ==="
-echo "# Save these securely - they won't be regenerated after initial install"
-echo "NEXTAUTH_URL=http://localhost:3000/api/v1/auth" >> "$LINKWARDEN_DATA_PATH/.env"
-echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> "$LINKWARDEN_DATA_PATH/.env"
-echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> "$LINKWARDEN_DATA_PATH/.env"
-echo "# Reference .env.sample: https://raw.githubusercontent.com/linkwarden/linkwarden/refs/heads/main/.env.sample" 
+if [ ! -f "$SECRETS_FILE" ]; then
+  echo ""
+  echo "=== Generated secrets and config ==="
+  echo "# Save these securely - they won't be regenerated after initial install"
+  echo "NEXTAUTH_URL=http://localhost:3000/api/v1/auth" >> "$LINKWARDEN_DATA_PATH/.env"
+  echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> "$LINKWARDEN_DATA_PATH/.env"
+  echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> "$LINKWARDEN_DATA_PATH/.env"
+  echo "# Reference .env.sample: https://raw.githubusercontent.com/linkwarden/linkwarden/refs/heads/main/.env.sample"
+else
+  echo "Secrets File already exists, not creating."
+fi
 
 # --- Pull images ---
 echo "Pulling images..."
