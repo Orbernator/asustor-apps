@@ -9,7 +9,6 @@ exec 1>"$LOG_FILE" 2>&1
 echo "=== Navidrome post-install started: $(date) ==="
 
 # --- Error handling ---
-set -e
 
 # --- Environment variables ---
 if [ -z "$APKG_PKG_DIR" ]; then

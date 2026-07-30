@@ -5,7 +5,7 @@ echo "navidrome-adm: --== pre-uninstall ==--"
 # Environment variables
 NAVIDROME_VERSION=$(cat $APKG_PKG_DIR/navidrome_version)
 NAVIDROME_CONTAINER=$(docker container ls -a | grep Navidrome | awk '{print $1}')
-NAVIDROME_IMAGE=$(docker images | grep deluan/navidrome | grep $NAVIDROME_VERSION | awk '{print $3}')
+NAVIDROME_IMAGE=$(docker images | grep deluan/navidrome | grep 0.63.2 | awk '{print $3}')
 
 # Force shutdown of the container and delete it
 echo "navidrome-adm: Stopping and removing container"

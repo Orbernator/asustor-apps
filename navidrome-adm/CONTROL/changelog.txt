@@ -1,3 +1,5 @@
+0.63.2-o2
+- Fixed a issue with Windows and .sh files (Because why wont it mess it up?)
 0.63.2-o1
 - Fixed a issue with Navidrome uninstalling
 

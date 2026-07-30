@@ -2,7 +2,7 @@
   "general":{
     "package":"navidrome-docker",
     "name":"Navidrome",
-    "version":"0.63.2-o1",
+    "version":"0.63.2-o2",
     "depends":[
       "docker-ce(>=20.10.17.r1)"
     ],
