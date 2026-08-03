@@ -1,0 +1,2 @@
+2.9.10
+- Initial Music Assistant ADM release

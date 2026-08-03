@@ -1,0 +1,20 @@
+Music Assistant is a music library manager for your offline and online music sources which can easily stream your favourite music to a wide range of supported players and be combined with the power of Home Assistant!
+
+- Supports multiple music sources through a provider implementation
+- Many popular streaming services are supported, as well as local files
+- Matches music in library from different sources (track linking)
+- Fetches metadata for extended artist information
+- Keeps track of the entire music library in a compact database
+- Gapless, crossfade and volume normalization support for all players
+- Playback synchronisation is possible for supported players
+- Announcements during playback is supported
+- Transfer of playback between players is supported
+- Truly hassle free streaming of your favourite music to players, no advanced knowledge required
+- Rich User interface (Progressive Web App)
+
+
+Music Assistant is accessible at http://Your-NAS-IP:8095
+
+Config files is stored at /Docker/MusicAssistant
+
+Orbernator takes no resposibility for any loss of data or issues with the Music Assistant app, this app is provided as is. Any issues with Music Assistant outside of the ADM app are to be directed to the official Music Assistant team.

@@ -27,6 +27,9 @@ I would like to thank [EndMove](https://github.com/EndMove) for the original cod
 **Glance** - Glance is a lightweight, highly customizable dashboard that displays your feeds in a beautiful, streamlined interface
 [View](https://github.com/Orbernator/asustor-apps/tree/main/glance-adm)
 
+**Music Assistant** - Music Assistant is a music library manager for your offline and online music sources
+[View](https://github.com/Orbernator/asustor-apps/tree/main/music_assistant-adm)
+
 ## More to Come
 
 If you have any suggestions for apps you would like, make a issue! I would love to hear your feedback!
