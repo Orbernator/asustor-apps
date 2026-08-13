@@ -2,7 +2,7 @@
   "general": {
     "package": "musicassistant-docker",
     "name": "Music Assistant",
-    "version": "2.9.10",
+    "version": "2.9.13",
     "depends": [
       "docker-ce(>=20.10.17.r1)"
     ],

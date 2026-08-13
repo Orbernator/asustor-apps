@@ -1,2 +1,6 @@
+2.9.13
+
+-  Fix Spotify playback authorization (by @marcelveldt ( https://github.com/marcelveldt ) in #5601 ( https://github.com/music-assistant/server/pull/5601 ) )
+
 2.9.10
 - Initial Music Assistant ADM release
