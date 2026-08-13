@@ -25,7 +25,7 @@ fi
 
 if [ -z "$YOUTARR_VERSION" ]; then
   echo "ERROR: youtarr_version file is empty"
-  YOUTARR_VERSION="1.76.1"
+  YOUTARR_VERSION="1.78.1"
 fi
 
 YOUTARR_DATA_PATH='/share/Docker/Youtarr'
@@ -76,15 +76,28 @@ echo "Removing existing containers (if any)..."
 $COMPOSE_CMD -f "$COMPOSE_FILE" down --remove-orphans 2>/dev/null || true
 
 # --- Generate credentials ---
+SECRETS_FILE="$YOUTARR_DATA_PATH/secrets.txt"
 
-MARIA_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
-if [ -z "$MARIA_PASSWORD" ]; then
-  MARIA_PASSWORD="please_change_me"
+if [ -f "$SECRETS_FILE" ]; then
+  echo "Found existing secrets at $SECRETS_FILE — reusing stored credentials."
+  MARIADB_ROOT_PASSWORD=$(grep 'MARIADB_ROOT_PASSWORD=' "$SECRETS_FILE" | cut -d'=' -f2-)
+  MARIADB_PASSWORD=$(grep 'MARIADB_PASSWORD=' "$SECRETS_FILE" | cut -d'=' -f2-)
 fi
 
-MARIA_ROOT_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
-if [ -z "$MARIA_ROOT_PASSWORD" ]; then
-  MARIA_ROOT_PASSWORD="please_change_me_root"
+if [ -z "$MARIADB_PASSWORD" ]; then
+  echo "No existing MARIADB_PASSWORD found — generating a new one."
+  MARIADB_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
+  if [ -z "$MARIADB_PASSWORD" ]; then
+    MARIADB_PASSWORD="please_change_me"
+  fi
+fi
+
+if [ -z "$MARIADB_ROOT_PASSWORD" ]; then
+  echo "No existing MARIADB_ROOT_PASSWORD found — generating a new one."
+  MARIADB_ROOT_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
+  if [ -z "$MARIADB_ROOT_PASSWORD" ]; then
+    MARIADB_ROOT_PASSWORD="please_change_me_root"
+  fi
 fi
 
 # --- Generate docker-compose.yml ---
@@ -97,11 +110,11 @@ services:
     container_name: youtarr-db
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD= ${MARIA_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD= ${MARIADB_ROOT_PASSWORD}
       - MYSQL_DATABASE=youtarr
       - MYSQL_TCP_PORT= ${DB_PORT:-3321}
       - MYSQL_USER=youtarr_user
-      - MYSQL_PASSWORD=${MARIA_PASSWORD}
+      - MYSQL_PASSWORD=${MARIADB_PASSWORD}
       - MYSQL_CHARSET=utf8mb4
       - MYSQL_COLLATION=utf8mb4_unicode_ci
     volumes:
@@ -128,7 +141,7 @@ services:
       - DB_HOST=youtarr-db
       - DB_PORT=3321
       - DB_USER=youtarr_user
-      - DB_PASSWORD=${MARIA_PASSWORD}
+      - DB_PASSWORD=${MARIADB_PASSWORD}
       - DB_NAME=youtarr
       # Optional: Seed initial admin credentials for headless deployments
       - AUTH_PRESET_USERNAME=admin
@@ -159,13 +172,16 @@ echo "Generated docker-compose.yml:"
 cat "$COMPOSE_FILE"
 
 # Save generated secrets and config reference
-echo ""
-echo "=== Generated secrets and config ===" > "$YOUTARR_DATA_PATH/secrets.txt"
-echo "# Save these securely - they won't be regenerated after initial install" >> "$YOUTARR_DATA_PATH/secrets.txt"
-echo "MARIA_PASSWORD=${MARIA_PASSWORD}" >> "$YOUTARR_DATA_PATH/secrets.txt"
-echo "MARIA_ROOT_PASSWORD=${MARIA_ROOT_PASSOWRD}" >> "$YOUTARR_DATA_PATH/secrets.txt"
-echo "" >> "$YOUTARR_DATA_PATH/secrets.txt"
-chmod 600 "$YOUTARR_DATA_PATH/secrets.txt"
+if [ ! -f "$SECRETS_FILE" ]; then
+  echo ""
+  echo "=== Generated secrets (save these!) ===" > "$SECRETS_FILE"
+  echo "MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}" >> "$SECRETS_FILE"
+  echo "MARIADB_PASSWORD=${MARIADB_PASSWORD}" >> "$SECRETS_FILE"
+  chmod 600 "$SECRETS_FILE"
+  echo "Secrets saved to $SECRETS_FILE"
+else
+  echo "Secrets file already existed — keeping existing credentials intact."
+fi
 
 # --- Pull images ---
 echo "Pulling images..."

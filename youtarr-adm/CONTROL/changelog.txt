@@ -1,2 +1,9 @@
+1.78.0
+- add backdrop images for Emby and Jellyfin
+- restore utf8mb4_bin on jobs uuid fk columns
+- bump brace-expansion and ip-address for npm audit
+- qualify channel .m3u import by library type [skip ci] 
+- update CHANGELOG for v1.77.0 [skip ci]
+
 1.76.1
 - Initial Youtarr ADM release
