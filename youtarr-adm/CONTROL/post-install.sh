@@ -25,7 +25,7 @@ fi
 
 if [ -z "$YOUTARR_VERSION" ]; then
   echo "ERROR: youtarr_version file is empty"
-  YOUTARR_VERSION="1.78.1"
+  YOUTARR_VERSION="1.79.0"
 fi
 
 YOUTARR_DATA_PATH='/share/Docker/Youtarr'
@@ -226,7 +226,6 @@ echo "=============================================="
 echo "Setup complete!"
 echo "=============================================="
 echo "Access Youtarr at: http://$AS_NAS_INET4_IP1:3087/"
-echo "First login: Use email/password registration (signups enabled by default)"
 echo "Secrets saved to: $YOUTARR_DATA_PATH/secrets.txt"
 echo "Config directory: $CONFIG_PATH"
 echo "Logs saved to: $LOG_FILE"

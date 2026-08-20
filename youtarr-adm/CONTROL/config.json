@@ -2,7 +2,7 @@
   "general": {
     "package": "youtarr-docker",
     "name": "Youtarr",
-    "version": "1.78.0",
+    "version": "1.79.0",
     "depends": [
       "docker-ce(>=20.10.17.r1)"
     ],
