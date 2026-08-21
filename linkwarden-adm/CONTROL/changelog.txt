@@ -1,3 +1,12 @@
+2.16.1
+- Announcement dismissals are now saved to your account, so they stay dismissed across devices
+- Updated Japanese translations.
+- Fixed running the Docker container as a non-root user.
+- Fixed manual installation on Windows.
+- Fixed sign-in issues with Azure AD B2C and improved OIDC account handling.
+- Faster Docker build.
+- Bug fixes.
+
 2.16.0
 - Support for self-signed certificates and custom request headers: Android now accepts self-signed certificates, and you can add custom request headers to the app's requests. This makes the app usable with instances behind a reverse proxy or auth layer like Authelia or Cloudflare Access.
 - Re-preserve link formats: You can now re-generate a link's preserved formats (screenshot, PDF, readable view) from the mobile app, useful if the original preservation failed or the page has changed since.

@@ -2,7 +2,7 @@
   "general": {
     "package": "linkwarden-docker",
     "name": "Linkwarden",
-    "version": "2.16.0",
+    "version": "2.16.1",
     "depends": [
       "docker-ce(>=20.10.17.r1)"
     ],

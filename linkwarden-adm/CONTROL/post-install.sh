@@ -25,7 +25,7 @@ fi
 
 if [ -z "$LINKWARDEN_VERSION" ]; then
   echo "ERROR: linkwarden_version file is empty"
-  LINKWARDEN_VERSION="v2.16.0"
+  LINKWARDEN_VERSION="v2.16.1"
 fi
 
 LINKWARDEN_DATA_PATH='/share/Docker/Linkwarden'
@@ -69,7 +69,7 @@ mkdir -p "$CONFIG_PATH"
 echo "Removing existing containers (if any)..."
 $COMPOSE_CMD -f "$COMPOSE_FILE" down --remove-orphans 2>/dev/null || true
 
-if [ -f "$SECRETS_FILE" ]; then
+if [ -f "$LINKWARDEN_ENV_PATH" ]; then
   echo "Found existing secrets at $LINKWARDEN_ENV_PATH — reusing stored credentials."
   NEXTAUTH_SECRET=$(grep 'NEXTAUTH_SECRET=' "$NEXTAUTH_SECRET" | cut -d'=' -f2-)
   POSTGRES_PASSWORD=$(grep 'POSTGRES_PASSWORD=' "$LINKWARDEN_ENV_PATH" | cut -d'=' -f2-)
@@ -88,7 +88,7 @@ if [ -z "$POSTGRES_PASSWORD" ]; then
   echo "No existing MARIADB_PASSWORD found — generating a new one."
   POSTGRES_PASSWORD=$(openssl rand -hex 16 2>/dev/null)
   if [ -z "$POSTGRES" ]; then
-    MARIADB_PASSWORD="please_change_me"
+    POSTGRES_PASSWORD="please_change_me"
   fi
 fi
 
@@ -126,7 +126,7 @@ echo "Generated docker-compose.yml:"
 cat "$COMPOSE_FILE"
 
 # Save generated secrets and config reference
-if [ ! -f "$SECRETS_FILE" ]; then
+if [ ! -f "$LINKWARDEN_ENV_PATH" ]; then
   echo ""
   echo "=== Generated secrets and config ==="
   echo "# Save these securely - they won't be regenerated after initial install"
@@ -197,7 +197,7 @@ echo "Setup complete!"
 echo "=============================================="
 echo "Access Linkwarden at: http://$AS_NAS_INET4_IP1:5465/"
 echo "First login: Use email/password registration (signups enabled by default)"
-echo "Secrets saved to: $LINKWARDEN_DATA_PATH/secrets.txt"
+echo "Env saved to $LINKWARDEN_ENV_PATH"
 echo "Config directory: $CONFIG_PATH"
 echo "Logs saved to: $LOG_FILE"
 echo "=============================================="
