@@ -25,7 +25,7 @@ fi
 
 if [ -z "$ROMM_VERSION" ]; then
   echo "ERROR: romm_version file is empty"
-  ROMM_VERSION="5.1.0"
+  ROMM_VERSION="5.2.0"
 fi
 
 ROMM_DATA_PATH='/share/Docker/Romm'

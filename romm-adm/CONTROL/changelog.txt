@@ -1,3 +1,6 @@
+5.2.0
+- There are so many notes, I am not typing em all. Read them here: https://github.com/rommapp/romm/releases/tag/5.2.0
+
 5.1.0
 Official Notes
 - Launches a game into a native emulator running in a separate container and streams the picture, sound, and input back to your browser. Unlike EmulatorJS, the emulation runs server-side on real emulator binaries (PCSX2, Dolphin, Xemu), so the heavy lifting happens on the host rather than in the client.
@@ -6,6 +9,7 @@ Official Notes
 - Client-side filters to the manual cover-search dialog to quickly narrow SteamGridDB results instead of scrolling through dozens of community covers.
 Orbernator's Notes
 - Fixed a issue with overwriting, updated to 5.1.0
+
 5.0.0-o1
 - Fixes a issue when Uninstalling
 
