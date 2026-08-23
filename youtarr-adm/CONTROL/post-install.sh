@@ -25,7 +25,7 @@ fi
 
 if [ -z "$YOUTARR_VERSION" ]; then
   echo "ERROR: youtarr_version file is empty"
-  YOUTARR_VERSION="1.79.0"
+  YOUTARR_VERSION="1.80.0"
 fi
 
 YOUTARR_DATA_PATH='/share/Docker/Youtarr'

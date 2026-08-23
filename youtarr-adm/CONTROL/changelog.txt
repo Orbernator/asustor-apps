@@ -1,3 +1,10 @@
+1.80.0
+- add channel-level auto-removal protection
+- add year tag to video NFO files
+- clarify channel auto-download requirements
+- clarify subfolder add flow in settings
+- add OCI source label to release image
+
 1.79.0
 - add yt-dlp stable/nightly update channel
 - persist download history across restarts

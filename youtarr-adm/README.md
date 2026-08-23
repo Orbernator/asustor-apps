@@ -1,7 +1,7 @@
 
 # youtarr-adm
 
-__Youtarr version__: _`1.76.1`_
+__Youtarr version__: _`1.80.1`_
 
 youtarr-adm is an application for ADM, the operating system of [ASUSTOR](https://www.asustor.com/) (ASUS).
 This application uses the Youtarr Docker image available at [dialmaster/youtarr](https://github.com/dialmasterorg/youtarr).
