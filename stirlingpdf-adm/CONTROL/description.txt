@@ -1,0 +1,7 @@
+Stirling PDF is a powerful, open-source PDF editing platform. Run it as a personal desktop app, in the browser, or deploy it on your own servers with a private API. Edit, sign, redact, convert, and automate PDFs without sending documents to external services.
+
+Stirling PDF is accessible at http://Your-NAS-IP:7847
+
+Config files is stored at /Docker/StirlingPDF
+
+Orbernator takes no resposibility for any loss of data or issues with the Stirling PDF app, this app is provided as is. Any issues with Stirling PDF outside of the ADM app are to be directed to the official Stirling PDF team.

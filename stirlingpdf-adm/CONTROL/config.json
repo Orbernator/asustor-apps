@@ -1,0 +1,43 @@
+{
+  "general": {
+    "package": "stirlingpdf-docker",
+    "name": "Stirling PDF",
+    "version": "2.14.3",
+    "depends": [
+      "docker-ce(>=20.10.17.r1)"
+    ],
+    "developer": "Stirling Tools",
+    "maintainer": "Orbernator",
+    "email": "contactus@teamorbi.net",
+    "website": "https://www.stirling.com/",
+    "architecture": "x86-64",
+    "firmware": "5.0.0"
+  },
+  "adm-desktop": {
+    "app": {
+      "port": 7847,
+      "protocol": "http",
+      "type": "custom",
+      "url": "/"
+    },
+    "privilege": {
+      "accessible": "users",
+      "customizable": true
+    }
+  },
+  "register": {
+    "share-folder": [
+      {
+        "name": "Docker",
+        "description": "Data and files directory for Docker Apps"
+      }
+    ],
+    "boot-priority": {
+      "start-order": 70,
+      "stop-order": 30
+    },
+    "port": [
+      "T7847"
+    ]
+  }
+}
