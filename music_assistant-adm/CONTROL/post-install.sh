@@ -25,7 +25,7 @@ fi
 
 if [ -z "$MUSIC_ASSISTANT_VERSION" ]; then
   echo "ERROR: musicassistant_version file is empty"
-  MUSIC_ASSISTANT_VERSION="v2.9.13"
+  MUSIC_ASSISTANT_VERSION="v2.10.0"
 fi
 
 MUSIC_ASSISTANT_DATA_PATH='/share/Docker/MusicAssistant'

@@ -1,3 +1,7 @@
+2.10.0
+- Way too long for me to type, so heres a link to the update notes
+- https://github.com/music-assistant/server/releases/tag/2.10.0
+
 2.9.13
 
 -  Fix Spotify playback authorization (by @marcelveldt ( https://github.com/marcelveldt ) in #5601 ( https://github.com/music-assistant/server/pull/5601 ) )

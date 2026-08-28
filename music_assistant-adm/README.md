@@ -1,7 +1,7 @@
 
 # music-assistant-adm
 
-__Music Assistant version__: _`2.15.1`_
+__Music Assistant version__: _`2.10.0`_
 
 music-assistant-adm is an application for ADM, the operating system of [ASUSTOR](https://www.asustor.com/) (ASUS).
 This application uses the MusicAssistant Docker image available at [music-assistant/server](https://github.com/music-assistant/server).
