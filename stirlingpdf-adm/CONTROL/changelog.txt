@@ -1,2 +1,13 @@
+3.1.0
+
+What I (Orbernator) have done:
+Fixed a issue with updating leaving old images behind, this does affect other apps, but should not cause any issues, unless they are misconfigured.
+
+What the StirlingPDF team have done:
+
+https://github.com/Stirling-Tools/Stirling-PDF/releases/tag/v3.1.0
+
+Big Changes!
+
 2.14.3
 - Initial Stirling PDF ADM release

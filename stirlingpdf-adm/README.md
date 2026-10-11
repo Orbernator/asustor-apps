@@ -1,7 +1,7 @@
 
 # stirlingpdf-adm
 
-__StirlingPDF version__: _`2.14.3`_
+__StirlingPDF version__: _`3.1.0`_
 
 stirlingpdf-adm is an application for ADM, the operating system of [ASUSTOR](https://www.asustor.com/) (ASUS).
 This application uses the StirlingPDF Docker image available at [stirling-tools/stirling-pdf](https://github.com/Stirling-Tools/Stirling-PDF).

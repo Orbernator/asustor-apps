@@ -25,8 +25,12 @@ fi
 
 if [ -z "$STIRLINGPDF_VERSION" ]; then
   echo "ERROR: stirlingpdf_version file is empty"
-  STIRLINGPDF_VERSION="1.79.0"
+  STIRLINGPDF_VERSION="3.1.0"
 fi
+
+echo "stirlingpdf-adm: Pruning Docker Images (Fixes occasional issues)"
+docker image prune -a -f
+exit 0
 
 STIRLINGPDF_DATA_PATH='/share/Docker/StirlingPDF'
 CONFIG_PATH='/share/Docker/StirlingPDF/config'
