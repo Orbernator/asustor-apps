@@ -1,3 +1,11 @@
+5.4.0
+What I (Orbernator have fixed):
+Patched (Hopefully) a issue when updating my apps, which leaves the image behind, filling up the hard drive. Now, it should prune all images, deleting all images not referenced by any container. This does affect all of my, and others apps, but should not cause any issues.
+
+What the RomM team have done:
+https://github.com/rommapp/romm/releases/tag/5.4.0
+(It's a lot, so read up!)
+
 5.2.0
 - There are so many notes, I am not typing em all. Read them here: https://github.com/rommapp/romm/releases/tag/5.2.0
 

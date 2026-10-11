@@ -34,4 +34,6 @@ if [ -n "$ROMM_NETWORKS" ]; then
   docker network rm "$ROMM_NETWORKS"
 fi
 
+echo "romm-adm: Pruning Images (Fixes occasional issues)"
+docker image prune -a -f
 exit 0

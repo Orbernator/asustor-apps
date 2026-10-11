@@ -1,6 +1,6 @@
 # romm-adm
 
-__RomM version__: _`5.0.0`_
+__RomM version__: _`5.4.0`_
 
 romm-adm is an application for ADM, the operating system of [ASUSTOR](https://www.asustor.com/) (ASUS).
 This application uses the RomM Docker image available at [rommapp/romm](https://github.com/rommapp/romm).
